@@ -30,21 +30,33 @@
     <form action="https://docs.google.com/forms/d/e/1FAIpQLSelqWRrruen5Q_6EglzcNIy33LcHsW-zlTSiI67-SlwajbA4w/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
       
       <div id="section1" class="step-section active">
-        <div class="alert alert-success py-2 small fw-bold">1. DESKRIPSI ENUMERATOR (PETUGAS)</div>
+        
+        <div class="alert alert-primary py-2 small fw-bold">LANGKAH AWAL: PILIH WILAYAH TUGAS</div>
         <div class="mb-3">
-          <label class="form-label fw-semibold">Nama Enumerator</label>
-          <input type="text" name="entry.1287942338" class="form-control" required placeholder="Nama lengkap petugas lapangan">
-        </div>
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Alamat Enumerator</label>
-          <input type="text" name="entry.1420175151" class="form-control" required placeholder="Alamat petugas">
-        </div>
-        <div class="mb-3">
-          <label class="form-label fw-semibold">HP / Telepon Enumerator</label>
-          <input type="number" name="entry.261669994" class="form-control" required placeholder="08xxxxxxxxxx">
+          <label class="form-label fw-semibold text-primary">P205. RT/RW (Pilih Dusun Anda)</label>
+          <select id="p205" name="entry.935368348" class="form-select border-primary fw-bold" onchange="sinkronisasiOtomatisDusun(this.value)" required>
+            <option value="">-- Pilih Dusun --</option>
+            <option value="001">001 (Dusun Sentosa)</option>
+            <option value="002">002 (Dusun Mesjid)</option>
+            <option value="003">003 (Dusun Gelugur)</option>
+          </select>
         </div>
 
-        <div class="alert alert-success py-2 small fw-bold mt-4">2. DESKRIPSI LOKASI & KK</div>
+        <div class="alert alert-success py-2 small fw-bold mt-4">1. DESKRIPSI ENUMERATOR (OTOMATIS TERISI)</div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-muted">Nama Enumerator</label>
+          <input type="text" id="nama_enum" name="entry.1287942338" class="form-control bg-light" readonly required placeholder="Pilih dusun terlebih dahulu...">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-muted">Alamat Enumerator</label>
+          <input type="text" id="alamat_enum" name="entry.1420175151" class="form-control bg-light" readonly required placeholder="Pilih dusun terlebih dahulu...">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold text-muted">HP / Telepon Enumerator</label>
+          <input type="text" id="hp_enum" name="entry.261669994" class="form-control bg-light" readonly required placeholder="Pilih dusun terlebih dahulu...">
+        </div>
+
+        <div class="alert alert-success py-2 small fw-bold mt-4">2. DESKRIPSI LOKASI KELUARGA</div>
         <div class="row">
           <div class="col-6 mb-2"><label class="small fw-bold text-muted">Provinsi</label><input type="text" name="entry.1993492103" class="form-control form-control-sm" value="Aceh" readonly></div>
           <div class="col-6 mb-2"><label class="small fw-bold text-muted">Kabupaten</label><input type="text" name="entry.211208695" class="form-control form-control-sm" value="Aceh Timur" readonly></div>
@@ -52,27 +64,19 @@
           <div class="col-6 mb-2"><label class="small fw-bold text-muted">Desa</label><input type="text" name="entry.483215958" class="form-control form-control-sm" value="Keude Keumuneng" readonly></div>
         </div>
 
-        <div class="mb-3 mt-2">
-          <label class="form-label fw-semibold">RT/RW (Kode Dusun)</label>
-          <select id="p205" name="entry.935368348" class="form-select" onchange="setAlamatKK(this.value)" required>
-            <option value="">-- Pilih Dusun --</option>
-            <option value="001=SENTOSA">001 (Dusun Sentosa)</option>
-            <option value="002=MESJID">002 (Dusun Mesjid)</option>
-            <option value="003=GELUGUR">003 (Dusun Gelugur)</option>
-          </select>
+        <div class="mb-3 mt-3">
+          <label class="form-label fw-semibold">Alamat Kepala Keluarga</label>
+          <input type="text" id="alamat_kk" name="entry.1348095126" class="form-control bg-light" readonly required placeholder="Otomatis mengikuti nama Dusun">
         </div>
 
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Nama Kepala Keluarga (KK)</label>
-          <input type="text" name="entry.1911601001" class="form-control" required placeholder="Nama KEPALA KELUARGA">
+        <div class="mb-3 border-top pt-3">
+          <label class="form-label fw-semibold text-success">Nama Kepala Keluarga (KK) Terdata</label>
+          <input type="text" name="entry.1911601001" class="form-control" required placeholder="Nama LENGKAP Kepala Keluarga">
         </div>
-        <div class="mb-3">
-          <label class="form-label fw-semibold">Alamat Kepala Keluarga</label>
-          <input type="text" id="alamat_kk" name="entry.1348095126" class="form-control" readonly required placeholder="Otomatis terisi dari RT/RW">
-        </div>
+        
         <div class="row">
-          <div class="col-6 mb-3"><label class="form-label fw-semibold">No HP</label><input type="number" name="entry.1202515557" class="form-control" required placeholder="No HP Aktif"></div>
-          <div class="col-6 mb-3"><label class="form-label fw-semibold">No Tlp Rumah</label><input type="text" name="entry.1304239618" class="form-control" value="-"></div>
+          <div class="col-6 mb-3"><label class="form-label fw-semibold">No HP Kepala Keluarga</label><input type="number" name="entry.1202515557" class="form-control" required placeholder="08xxxxxxxxxx"></div>
+          <div class="col-6 mb-3"><label class="form-label fw-semibold">No Tlp Rumah KK</label><input type="text" name="entry.1304239618" class="form-control" value="-"></div>
         </div>
 
         <div class="row border-top pt-3">
@@ -199,7 +203,7 @@
 
         <div class="row bg-light p-2 rounded mb-3 g-2 text-start">
           <div class="col-4"><label class="small fw-bold">Rumah di SUTET?</label><select name="entry.166406216" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
-          <div class="col-4"><label class="small fw-bold">Bantaran Sungai?</label><select name="entry.1178612310" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
+          <div class="col-4"><label class="small fw-bold">Bantaran Sungai?</label><select name="entry.1178612310" class="form-select form-select-sm"><option value="Tidak">Never</option><option value="Ya">Ya</option></select></div>
           <div class="col-4"><label class="small fw-bold">Lereng Bukit?</label><select name="entry.650668599" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
           <div class="col-12 mt-2">
             <label class="small fw-bold">KONDISI KESELURUHAN RUMAH</label>
@@ -208,7 +212,7 @@
         </div>
 
         <button type="button" class="btn btn-secondary px-4" onclick="pindahSection(1)">Kembali</button>
-        <button type="button" class="btn btn-success float-end px-4" onclick="pindahSection(3)">Lanjut ke Transportasi</button>
+        <button type="button" class="btn btn-success float-end px-4" onclick="pindahSection(2)">Lanjut ke Transportasi</button>
       </div>
 
 
@@ -302,17 +306,48 @@
   <script>
     var submitted = false;
 
-    // Otomatisasi data alamat KK berdasarkan pilihan kode Dusun
-    function setAlamatKK(val) {
-      if(val) {
-        var namaDusun = val.split("=")[1].trim();
-        document.getElementById("alamat_kk").value = "DUSUN " + namaDusun;
+    // === DATABASE KEPALA DUSUN SEBAGAI ENUMERATOR ===
+    // Silakan edit nama dan nomor HP di bawah ini sesuai data Kadus yang asli!
+    const databaseEnumerator = {
+      "001": {
+        nama: "MISRIZA",
+        alamat: "DUSUN SENTOSA",
+        hp: "082268890546"
+      },
+      "002": {
+        nama: "SAUKI RAMADAN",
+        alamat: "DUSUN MESJID",
+        hp: "082168613948"
+      },
+      "003": {
+        nama: "DEDI NORIADI", // Contoh data dari copas Anda
+        alamat: "DUSUN GELUGUR",
+        hp: "081290599350"
+      }
+    };
+
+    // Fungsi Otomatisasi saat Dusun Dipilih
+    function sinkronisasiOtomatisDusun(kodeDusun) {
+      if(kodeDusun && databaseEnumerator[kodeDusun]) {
+        const dataKadus = databaseEnumerator[kodeDusun];
+        
+        // 1. Isi otomatis kolom Deskripsi Enumerator
+        document.getElementById("nama_enum").value = dataKadus.nama;
+        document.getElementById("alamat_enum").value = dataKadus.alamat;
+        document.getElementById("hp_enum").value = dataKadus.hp;
+        
+        // 2. Isi otomatis kolom Alamat Rumah KK
+        document.getElementById("alamat_kk").value = dataKadus.alamat;
       } else {
+        // Jika dikosongkan kembali
+        document.getElementById("nama_enum").value = "";
+        document.getElementById("alamat_enum").value = "";
+        document.getElementById("hp_enum").value = "";
         document.getElementById("alamat_kk").value = "";
       }
     }
 
-    // Fungsi Navigasi Tab / Section Wizard Multi-Step
+    // Fungsi Wizard Navigasi Multi-Step
     function pindahSection(step) {
       var seksiAktif = document.querySelector('.step-section.active');
       var inputs = seksiAktif.querySelectorAll('input, select');
@@ -340,13 +375,12 @@
       return 3;
     }
 
-    // Fungsi Interaksi Kondisional "LAINNYA" / "KAYU BAKAR"
+    // Fungsi Kondisional Kolom Keterangan
     function cekLainnya(idDropdown, idBoxLainnya, idInputLainnya) {
       var pilihan = document.getElementById(idDropdown).value;
       var box = document.getElementById(idBoxLainnya);
       var input = document.getElementById(idInputLainnya);
 
-      // Logika khusus untuk memunculkan kolom sumber kayu bakar
       if (idDropdown === "p409") {
         var boxKayu = document.getElementById("box_sumber_kayu");
         if (pilihan === "KAYU BAKAR") {
@@ -356,7 +390,6 @@
         }
       }
 
-      // Logika universal kolom "LAINNYA" atau "Ya" pada bansos
       if (pilihan === "LAINNYA" || pilihan === "Ya" || pilihan === "Lainnya") {
         box.classList.remove("d-none");
         if(input.value === "-") input.value = "";
