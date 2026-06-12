@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuesioner SDGs Desa - Data Individu</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .counter-badge {
+            background-color: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            font-size: 1.4em;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        input[disabled] {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+        /* Style untuk Grid Checklist Komoditas */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .checkbox-item input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        /* Sub-input komoditas yang dinamis */
+        .income-sub-fields {
+            background: #fdf2f8;
+            border-left: 4px solid #db2777;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            display: none; /* Tersembunyi secara default */
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="counterBadge" class="counter-badge">Memuat status pengisian...</div>
+
+    <!-- Gunakan iframe tersembunyi agar form dikirim tanpa pindah halaman luar -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmitted !== 'undefined') handleNextLoop();"></iframe>
+
+    <!-- FORM UTAMA MENYASAR FORM INDIVIDU ANDA -->
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSfJUPEYxX2Y-eZ2VZg3uyWG8J-kMuPBye2N2hw3bqpp83RPsg/formResponse" method="POST" target="hidden_iframe" onsubmit="formSubmitted=true; prepareSubmissionData();">
+        
+        <!-- SECTION 1: DESKRIPSI INDIVIDU -->
+        <div class="section-card">
+            <h2>I. DESKRIPSI INDIVIDU</h2>
+            <div class="form-group">
+                <label>NOMOR KK (Diisi Otomatis)</label>
+                <input type="text" name="entry.1507394346" id="form_no_kk" readonly required>
+            </div>
+            <div class="form-group">
+                <label>NAMA KEPALA KELUARGA (Diisi Otomatis)</label>
+                <input type="text" name="entry.536387733" id="form_nama_kk" readonly required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>NOMOR NIK</label>
+                    <input type="number" name="entry.612634417" required placeholder="16 Digit NIK">
+                </div>
+                <div class="form-group">
+                    <label>NAMA ANGGOTA KELUARGA</label>
+                    <input type="text" name="entry.261887815" required placeholder="Nama Lengkap">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>JENIS KELAMIN</label>
+                    <select name="entry.1946444520" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="LAKI LAKI">LAKI LAKI</option>
+                        <option value="PEREMPUAN">PEREMPUAN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>TEMPAT LAHIR</label>
+                    <input type="text" name="entry.1703323366" required>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>TANGGAL LAHIR</label>
+                    <input type="date" name="entry.343406188" required>
+                </div>
+                <div class="form-group">
+                    <label>STATUS PERNIKAHAN</label>
+                    <select name="entry.389242572" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="KAWIN">KAWIN</option>
+                        <option value="BELUM KAWIN">BELUM KAWIN</option>
+                        <option value="CERAI HIDUP">CERAI HIDUP</option>
+                        <option value="CERAI MATI">CERAI MATI</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>SUKU</label>
+                    <input type="text" name="entry.1314634880" value="Aceh" required>
+                </div>
+                <div class="form-group">
+                    <label>NOMOR HP</label>
+                    <input type="number" name="entry.1261306533" placeholder="08...">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>NOMOR WA</label>
+                    <input type="number" name="entry.2023532409" placeholder="08...">
+                </div>
+                <div class="form-group">
+                    <label>ALAMAT EMAIL</label>
+                    <input type="text" name="entry.1641525274" placeholder="contoh@email.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: DESKRIPSI PEKERJAAN -->
+        <div class="section-card">
+            <h2>II. DESKRIPSI PEKERJAAN</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>KONDISI PEKERJAAN</label>
+                    <select name="entry.1512150765" required>
+                        <option value="BERSEKOLAH">BERSEKOLAH</option>
+                        <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
+                        <option value="TIDAK BEKERJA">TIDAK BEKERJA</option>
+                        <option value="BEKERJA">BEKERJA</option>
+                        <option value="MENGANGGUR">MENGANGGUR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>PEKERJAAN UTAMA</label>
+                    <input type="text" name="entry.684761260" placeholder="Contoh: Petani, Wiraswasta, PNS">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>KETERANGAN PEKERJAAN</label>
+                <input type="text" name="entry.1085359690" placeholder="Keterangan tambahan jika diperlukan">
+            </div>
+            <div class="form-group">
+                <label>BPJS KETENAGA KERJAAN (JAMSOSTEK)</label>
+                <select name="entry.165838787" required>
+                    <option value="BUKAN PESERTA">BUKAN PESERTA</option>
+                    <option value="PESERTA AKTIF">PESERTA AKTIF</option>
+                    <option value="PESERTA TIDAK AKTIF">PESERTA TIDAK AKTIF</option>
+                </select>
+            </div>
+
+            <!-- SYSTEM CENTANG SUMBER PENGHASILAN DINAMIS -->
+            <h3 style="margin-top:25px; color:#db2777;">Pilih Sumber Penghasilan Setahun Terakhir (Centang yang Ada):</h3>
+            <div class="checkbox-grid">
+                <div class="checkbox-item"><input type="checkbox" id="chk_padi" onchange="toggleIncome('chk_padi', 'sec_padi')"> Padi</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_palawija" onchange="toggleIncome('chk_palawija', 'sec_palawija')"> Palawija</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_horti" onchange="toggleIncome('chk_horti', 'sec_horti')"> Hortikultura</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_karet" onchange="toggleIncome('chk_karet', 'sec_karet')"> Karet</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_sawit" onchange="toggleIncome('chk_sawit', 'sec_sawit')"> Kelapa Sawit</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_kelapa" onchange="toggleIncome('chk_kelapa', 'sec_kelapa')"> Kelapa</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_sapi" onchange="toggleIncome('chk_sapi', 'sec_sapi')"> Sapi Potong</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_ternak_besar" onchange="toggleIncome('chk_ternak_besar', 'sec_ternak_besar')"> Ternak Besar Lain</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_ayam_pedaging" onchange="toggleIncome('chk_ayam_pedaging', 'sec_ayam_pedaging')"> Ayam Pedaging</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_telur" onchange="toggleIncome('chk_telur', 'sec_telur')"> Telur Ayam</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_ternak_kecil" onchange="toggleIncome('chk_ternak_kecil', 'sec_ternak_kecil')"> Ternak Kecil Lain</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_ikan_tangkap" onchange="toggleIncome('chk_ikan_tangkap', 'sec_ikan_tangkap')"> Perikanan Tangkap</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_ikan_budidaya" onchange="toggleIncome('chk_ikan_budidaya', 'sec_ikan_budidaya')"> Perikanan Budidaya</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_kehutanan" onchange="toggleIncome('chk_kehutanan', 'sec_kehutanan')"> Kehutanan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_jasa_tani" onchange="toggleIncome('chk_jasa_tani', 'sec_jasa_tani')"> Jasa Pertanian</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_kerajinan" onchange="toggleIncome('chk_kerajinan', 'sec_kerajinan')"> Industri Kerajinan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_pengolahan" onchange="toggleIncome('chk_pengolahan', 'sec_pengolahan')"> Industri Pengolahan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_dagang" onchange="toggleIncome('chk_dagang', 'sec_dagang')"> Perdagangan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_warung" onchange="toggleIncome('chk_warung', 'sec_warung')"> Warung/Rumah Makan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_angkutan" onchange="toggleIncome('chk_angkutan', 'sec_angkutan')"> Angkutan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_gudang" onchange="toggleIncome('chk_gudang', 'sec_gudang')"> Pergudangan</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_komunikasi" onchange="toggleIncome('chk_komunikasi', 'sec_komunikasi')"> Komunikasi</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_jasa_non_tani" onchange="toggleIncome('chk_jasa_non_tani', 'sec_jasa_non_tani')"> Jasa Non Pertanian</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_karyawan_tetap" onchange="toggleIncome('chk_karyawan_tetap', 'sec_karyawan_tetap')"> Karyawan Tetap</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_karyawan_lepas" onchange="toggleIncome('chk_karyawan_lepas', 'sec_karyawan_lepas')"> Karyawan Lepas</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_tni" onchange="toggleIncome('chk_tni', 'sec_tni')"> TNI</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_pns" onchange="toggleIncome('chk_pns', 'sec_pns')"> PNS</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_tki" onchange="toggleIncome('chk_tki', 'sec_tki')"> TKI</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_sumbangan" onchange="toggleIncome('chk_sumbangan', 'sec_sumbangan')"> Sumbangan/Bansos</div>
+                <div class="checkbox-item"><input type="checkbox" id="chk_lainnya" onchange="toggleIncome('chk_lainnya', 'sec_lainnya')"> LAINNYA</div>
+            </div>
+
+            <!-- AREA BLOK INPUT VALUE YANG AKAN MUNCUL SECARA OTOMATIS JIKA DICENTANG -->
+            <!-- Padi -->
+            <div id="sec_padi" class="income-sub-fields">
+                <h4>Data Penghasilan: Padi</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_padi_vol" data-entry="entry.455863384" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_padi_rev" data-entry="entry.506779208" value="0"></div>
+                </div>
+            </div>
+            <!-- Palawija -->
+            <div id="sec_palawija" class="income-sub-fields">
+                <h4>Data Penghasilan: Palawija</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_palawija_vol" data-entry="entry.1850147829" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_palawija_rev" data-entry="entry.1708039826" value="0"></div>
+                </div>
+            </div>
+            <!-- Hortikultura -->
+            <div id="sec_horti" class="income-sub-fields">
+                <h4>Data Penghasilan: Hortikultura</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_horti_vol" data-entry="entry.2123398074" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_horti_rev" data-entry="entry.376727987" value="0"></div>
+                </div>
+            </div>
+            <!-- Karet -->
+            <div id="sec_karet" class="income-sub-fields">
+                <h4>Data Penghasilan: Karet</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_karet_vol" data-entry="entry.193238243" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_karet_rev" data-entry="entry.136323602" value="0"></div>
+                </div>
+            </div>
+            <!-- Kelapa Sawit -->
+            <div id="sec_sawit" class="income-sub-fields">
+                <h4>Data Penghasilan: Kelapa Sawit</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_sawit_vol" data-entry="entry.749272588" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_sawit_rev" data-entry="entry.1171243673" value="0"></div>
+                </div>
+            </div>
+            <!-- Kelapa -->
+            <div id="sec_kelapa" class="income-sub-fields">
+                <h4>Data Penghasilan: Kelapa</h4>
+                <div class="grid-2">
+                    <div><label>Volume (ton)</label><input type="number" id="val_kelapa_vol" data-entry="entry.1971115703" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_kelapa_rev" data-entry="entry.1747760501" value="0"></div>
+                </div>
+            </div>
+            <!-- Sapi Potong -->
+            <div id="sec_sapi" class="income-sub-fields">
+                <h4>Data Penghasilan: Sapi Potong</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Ekor)</label><input type="number" id="val_sapi_vol" data-entry="entry.119738636" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_sapi_rev" data-entry="entry.1092333454" value="0"></div>
+                </div>
+            </div>
+            <!-- Ternak Besar Lain -->
+            <div id="sec_ternak_besar" class="income-sub-fields">
+                <h4>Data Penghasilan: Ternak Besar Lainnya</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Ekor)</label><input type="number" id="val_tbesar_vol" data-entry="entry.1274363959" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_tbesar_rev" data-entry="entry.356347855" value="0"></div>
+                </div>
+            </div>
+            <!-- Ayam Pedaging -->
+            <div id="sec_ayam_pedaging" class="income-sub-fields">
+                <h4>Data Penghasilan: Ayam Pedaging</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Ekor)</label><input type="number" id="val_apedaging_vol" data-entry="entry.1237315006" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_apedaging_rev" data-entry="entry.1730858509" value="0"></div>
+                </div>
+            </div>
+            <!-- Telur Ayam -->
+            <div id="sec_telur" class="income-sub-fields">
+                <h4>Data Penghasilan: Telur Ayam</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Kg)</label><input type="number" id="val_telur_vol" data-entry="entry.255739287" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_telur_rev" data-entry="entry.984963548" value="0"></div>
+                </div>
+            </div>
+            <!-- Ternak Kecil Lain -->
+            <div id="sec_ternak_kecil" class="income-sub-fields">
+                <h4>Data Penghasilan: Ternak Kecil Lainnya</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Ekor)</label><input type="number" id="val_tkecil_vol" data-entry="entry.741458180" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_tkecil_rev" data-entry="entry.33208944" value="0"></div>
+                </div>
+            </div>
+            <!-- Perikanan Tangkap -->
+            <div id="sec_ikan_tangkap" class="income-sub-fields">
+                <h4>Data Penghasilan: Perikanan Tangkap</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Kg)</label><input type="number" id="val_itangkap_vol" data-entry="entry.1111229319" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_itangkap_rev" data-entry="entry.405610853" value="0"></div>
+                </div>
+            </div>
+            <!-- Perikanan Budidaya -->
+            <div id="sec_ikan_budidaya" class="income-sub-fields">
+                <h4>Data Penghasilan: Perikanan Budidaya</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Kg)</label><input type="number" id="val_ibudidaya_vol" data-entry="entry.1692189166" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_ibudidaya_rev" data-entry="entry.684954365" value="0"></div>
+                </div>
+            </div>
+            <!-- Kehutanan -->
+            <div id="sec_kehutanan" class="income-sub-fields">
+                <h4>Data Penghasilan: Budidaya Tanaman Kehutanan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Batang)</label><input type="number" id="val_kehutanan_vol" data-entry="entry.2058541317" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_kehutanan_rev" data-entry="entry.680169410" value="0"></div>
+                </div>
+            </div>
+            <!-- Jasa Pertanian -->
+            <div id="sec_jasa_tani" class="income-sub-fields">
+                <h4>Data Penghasilan: Jasa Pertanian</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Hari)</label><input type="number" id="val_jtani_vol" data-entry="entry.1786873821" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_jtani_rev" data-entry="entry.1321574883" value="0"></div>
+                </div>
+            </div>
+            <!-- Industri Kerajinan -->
+            <div id="sec_kerajinan" class="income-sub-fields">
+                <h4>Data Penghasilan: Industri Kerajinan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_kerajinan_vol" data-entry="entry.288046360" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_kerajinan_rev" data-entry="entry.1645434516" value="0"></div>
+                </div>
+            </div>
+            <!-- Industri Pengolahan -->
+            <div id="sec_pengolahan" class="income-sub-fields">
+                <h4>Data Penghasilan: Industri Pengolahan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_pengolahan_vol" data-entry="entry.688819813" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_pengolahan_rev" data-entry="entry.782738367" value="0"></div>
+                </div>
+            </div>
+            <!-- Perdagangan -->
+            <div id="sec_dagang" class="income-sub-fields">
+                <h4>Data Penghasilan: Perdagangan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_dagang_vol" data-entry="entry.401590133" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_dagang_rev" data-entry="entry.948391673" value="0"></div>
+                </div>
+            </div>
+            <!-- Warung/RM -->
+            <div id="sec_warung" class="income-sub-fields">
+                <h4>Data Penghasilan: Warung & Rumah Makan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_warung_vol" data-entry="entry.1087560390" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_warung_rev" data-entry="entry.1446271305" value="0"></div>
+                </div>
+            </div>
+            <!-- Angkutan -->
+            <div id="sec_angkutan" class="income-sub-fields">
+                <h4>Data Penghasilan: Angkutan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_angkutan_vol" data-entry="entry.1632268024" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_angkutan_rev" data-entry="entry.1333393587" value="0"></div>
+                </div>
+            </div>
+            <!-- Pergudangan -->
+            <div id="sec_gudang" class="income-sub-fields">
+                <h4>Data Penghasilan: Pergudangan</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_gudang_vol" data-entry="entry.1522340325" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_gudang_rev" data-entry="entry.869941668" value="0"></div>
+                </div>
+            </div>
+            <!-- Komunikasi -->
+            <div id="sec_komunikasi" class="income-sub-fields">
+                <h4>Data Penghasilan: Komunikasi</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_komunikasi_vol" data-entry="entry.2028441463" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_komunikasi_rev" data-entry="entry.999661733" value="0"></div>
+                </div>
+            </div>
+            <!-- Jasa Non Tani -->
+            <div id="sec_jasa_non_tani" class="income-sub-fields">
+                <h4>Data Penghasilan: Jasa di Luar Pertanian</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_jnon_vol" data-entry="entry.1175144560" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_jnon_rev" data-entry="entry.1228792014" value="0"></div>
+                </div>
+            </div>
+            <!-- Karyawan Tetap -->
+            <div id="sec_karyawan_tetap" class="income-sub-fields">
+                <h4>Data Penghasilan: Karyawan Tetap</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_ktetap_vol" data-entry="entry.145524060" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_ktetap_rev" data-entry="entry.1542627447" value="0"></div>
+                </div>
+            </div>
+            <!-- Karyawan Lepas -->
+            <div id="sec_karyawan_lepas" class="income-sub-fields">
+                <h4>Data Penghasilan: Karyawan Tidak Tetap</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_klepas_vol" data-entry="entry.1246923055" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_klepas_rev" data-entry="entry.39517364" value="0"></div>
+                </div>
+            </div>
+            <!-- TNI -->
+            <div id="sec_tni" class="income-sub-fields">
+                <h4>Data Penghasilan: TNI</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_tni_vol" data-entry="entry.1541609202" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_tni_rev" data-entry="entry.360204028" value="0"></div>
+                </div>
+            </div>
+            <!-- PNS -->
+            <div id="sec_pns" class="income-sub-fields">
+                <h4>Data Penghasilan: PNS</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_pns_vol" data-entry="entry.912752745" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_pns_rev" data-entry="entry.1353229732" value="0"></div>
+                </div>
+            </div>
+            <!-- TKI -->
+            <div id="sec_tki" class="income-sub-fields">
+                <h4>Data Penghasilan: TKI</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_tki_vol" data-entry="entry.629445532" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_tki_rev" data-entry="entry.1752164233" value="0"></div>
+                </div>
+            </div>
+            <!-- Sumbangan -->
+            <div id="sec_sumbangan" class="income-sub-fields">
+                <h4>Data Penghasilan: Sumbangan (Keluarga/Pemerintah)</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_sumbangan_vol" data-entry="entry.1366943779" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_sumbangan_rev" data-entry="entry.1256019724" value="0"></div>
+                </div>
+            </div>
+            <!-- Lainnya -->
+            <div id="sec_lainnya" class="income-sub-fields">
+                <h4>Data Penghasilan: LAINNYA</h4>
+                <div class="grid-2">
+                    <div><label>Volume (Bulan)</label><input type="number" id="val_lainnya_vol" data-entry="entry.1874738941" value="0"></div>
+                    <div><label>Penghasilan Setahun (Rp)</label><input type="number" id="val_lainnya_rev" data-entry="entry.318652168" value="0"></div>
+                </div>
+                <div class="form-group" style="margin-top:10px;">
+                    <label>JIKA LAINNYA, MAKA PEKERJAAN APA?</label>
+                    <input type="text" name="entry.1958913299" placeholder="...">
+                </div>
+            </div>
+
+            <!-- Wadah Input Siluman (Hidden) untuk dikirim ke Google Form -->
+            <div id="hiddenIncomeContainer"></div>
+        </div>
+
+        <!-- SECTION 3: DESKRIPSI KESEHATAN -->
+        <div class="section-card">
+            <h2>III. DESKRIPSI KESEHATAN</h2>
+            <p style="font-weight:bold; font-size:0.9em; color:#475569;">Penyakit yang diderita setahun terakhir (Pilih YA/TIDAK):</p>
+            <div class="grid-2">
+                <div><label>Muntaber/Diare</label><select name="entry.1870592659"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Demam Berdarah</label><select name="entry.2082280090"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Campak</label><select name="entry.271823583"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Malaria</label><select name="entry.2070646498"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Flu Burung/SARS</label><select name="entry.1093760840"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Hepatitis B</label><select name="entry.1586561696"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Hepatitis E</label><select name="entry.1770459246"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Difteri</label><select name="entry.1413678498"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Chikungunya</label><select name="entry.186074313"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Leptospirosis</label><select name="entry.29748517"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Kolera</label><select name="entry.426368511"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Gizi Buruk</label><select name="entry.2027328754"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Jantung</label><select name="entry.176872149"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>TBC Paru-paru</label><select name="entry.972306628"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Kanker</label><select name="entry.1568990725"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Diabetes/Gula</label><select name="entry.2064469112"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Lumpuh</label><select name="entry.1711088267"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+            </div>
+            <div class="form-group" style="margin-top:15px;">
+                <label>JIKA ADA LAINNYA, SEBUTKAN APA:</label>
+                <input type="text" name="entry.1937096164" placeholder="-">
+            </div>
+
+            <!-- KUNJUNGAN FASKES DENGAN PILIHAN 1-12x & Lebih dari 12x LENGKAP -->
+            <p style="font-weight:bold; font-size:0.9em; color:#475569; margin-top:20px;">Berapa kali Faskes didatangi setahun terakhir:</p>
+            <div class="grid-2">
+                <div>
+                    <label>Rumah Sakit</label>
+                    <select name="entry.1144604797">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Rumah Sakit Bersalin</label>
+                    <select name="entry.863434683">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Puskesmas Rawat Inap</label>
+                    <select name="entry.954158395">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Puskesmas Tanpa Rawat Inap</label>
+                    <select name="entry.219958817">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Puskesmas Pembantu</label>
+                    <select name="entry.1189545298">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Poliklinik/Balai Pengobatan</label>
+                    <select name="entry.1498240583">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Tempat Praktik Dokter</label>
+                    <select name="entry.2132483295">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Rumah Bersalin</label>
+                    <select name="entry.1673636768">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Tempat Praktik Bidan</label>
+                    <select name="entry.618320646">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Poskesdes</label>
+                    <select name="entry.1590103832">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Polindes</label>
+                    <select name="entry.356836345">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Apotik</label>
+                    <select name="entry.496890022">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Toko Khusus Obat/Jamu</label>
+                    <select name="entry.123919465">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Posyandu</label>
+                    <select name="entry.156412836">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Posbindu</label>
+                    <select name="entry.195969168">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Praktik Dukun Bayi/Paraji</label>
+                    <select name="entry.1693777315">
+                        <option value="0 Kali">0 Kali</option><option value="1 Kali">1 Kali</option><option value="2 Kali">2 Kali</option><option value="3 Kali">3 Kali</option><option value="4 Kali">4 Kali</option><option value="5 Kali">5 Kali</option><option value="6 Kali">6 Kali</option><option value="7 Kali">7 Kali</option><option value="8 Kali">8 Kali</option><option value="9 Kali">9 Kali</option><option value="10 Kali">10 Kali</option><option value="11 Kali">11 Kali</option><option value="12 Kali">12 Kali</option><option value="Lebih dari 12 Kali">Lebih dari 12 Kali</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top:15px;">
+                <label>Apakah Anda Mempunyai BPJS/KIS?</label>
+                <select name="entry.1659047651" required>
+                    <option value="Ya">Ya</option>
+                    <option value="Tidak">Tidak</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- SECTION 4: DISABILITAS -->
+        <div class="section-card">
+            <h2>IV. DISABILITAS (PILIH YA/TIDAK)</h2>
+            <div class="grid-2">
+                <div><label>Tunanetra (Buta)</label><select name="entry.221973085"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunarungu (Tuli)</label><select name="entry.871768740"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunawicara (Bisu)</label><select name="entry.1516114635"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunarungu-Wicara</label><select name="entry.1586446569"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunadaksa (Cacat Tubuh)</label><select name="entry.574736822"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunagrahita (Mental)</label><select name="entry.67910660"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Tunalaras (Eks Sakit Jiwa)</label><select name="entry.826038308"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Cacat Eks Kusta</label><select name="entry.498818647"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Cacat Ganda</label><select name="entry.1304872081"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+                <div><label>Dipasung</label><select name="entry.1537339461"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: PENDIDIKAN -->
+        <div class="section-card">
+            <h2>V. DESKRIPSI PENDIDIKAN</h2>
+            <div class="form-group">
+                <label>Pendidikan Tertinggi yang Ditamatkan</label>
+                <select name="entry.9690368" required>
+                    <option value="TAMAT SD / SEDERAJAT">TAMAT SD / SEDERAJAT</option>
+                    <option value="TAMAT SMP / SEDERAJAT">TAMAT SMP / SEDERAJAT</option>
+                    <option value="TAMAT SMA / SEDERAJAT">TAMAT SMA / SEDERAJAT</option>
+                    <option value="DIPLOMA I / II / III">DIPLOMA I / II / III</option>
+                    <option value="DIPLOMA IV / STRATA I">DIPLOMA IV / STRATA I</option>
+                    <option value="TIDAK / BELUM SEKOLAH">TIDAK / BELUM SEKOLAH</option>
+                    <option value="LAINNYA">LAINNYA</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>JIKA LAINNYA, MAKA APA?</label>
+                <input type="text" name="entry.444171092" placeholder="-">
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Bahasa di Rumah & Permukiman</label>
+                    <input type="text" name="entry.10391987" value="Aceh" required>
+                </div>
+                <div class="form-group">
+                    <label>Bahasa di Lembaga Formal</label>
+                    <input type="text" name="entry.24610070" value="Indonesia" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: AKTIVITAS SOSIAL -->
+        <div class="section-card">
+            <h2>VI. JUMLAH AKTIVITAS SETAHUN TERAKHIR</h2>
+            <div class="grid-2">
+                <div>
+                    <label>Kerja Bakti</label>
+                    <select name="entry.580629156">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Siskamling</label>
+                    <select name="entry.1566694397">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Pesta Rakyat/Adat</label>
+                    <select name="entry.1374043884">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Menolong Warga Wafat</label>
+                    <select name="entry.499815778">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Menolong Warga Sakit</label>
+                    <select name="entry.248903843">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Menolong Kecelakaan</label>
+                    <select name="entry.643218188">
+                        <option value="0x">0x</option><option value="1x">1x</option><option value="2x">2x</option><option value="3x">3x</option><option value="4x">4x</option><option value="5x">5x</option><option value="6x">6x</option><option value="7x">7x</option><option value="8x">8x</option><option value="9x">9x</option><option value="10x">10x</option><option value="11x">11x</option><option value="12x">12x</option><option value="12x lebih">12x lebih</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" id="btnSubmit">KIRIM DATA INDIVIDU</button>
+    </form>
+</div>
+
+<script>
+    // 1. Ambil data parameter kiriman dari URL aplikasi KK
+    const urlParams = new URLSearchParams(window.location.search);
+    const noKK = urlParams.get('no_kk') || '';
+    const namaKK = urlParams.get('nama_kk') || '';
+    const totalJiwa = parseInt(urlParams.get('total')) || 1;
+    const currentLoop = parseInt(urlParams.get('loop')) || 1;
+
+    // Masukkan data referensi otomatis ke input form
+    document.getElementById('form_no_kk').value = noKK;
+    document.getElementById('form_nama_kk').value = namaKK;
+
+    // Perbarui teks Counter Badge di atas layar
+    const badge = document.getElementById('counterBadge');
+    badge.innerText = `MENGENTRI ORANG KE: ${currentLoop} DARI TOTAL: ${totalJiwa} JIWA`;
+
+    // 2. Fungsi Tampilan Centang Dinamis untuk Kolom Penghasilan
+    function toggleIncome(chkId, sectionId) {
+        const checkbox = document.getElementById(chkId);
+        const section = document.getElementById(sectionId);
+        if (checkbox.checked) {
+            section.style.display = 'block';
+        } else {
+            section.style.display = 'none';
+        }
+    }
+
+    // 3. Fungsi memformat & menyalin isi input angka ke tag hidden asli Google Form sebelum Submit
+    function prepareSubmissionData() {
+        const container = document.getElementById('hiddenIncomeContainer');
+        container.innerHTML = ''; // bersihkan data lama
+
+        // Ambil semua element input angka dalam blok penghasilan
+        const incomeInputs = document.querySelectorAll('.income-sub-fields input[type="number"]');
+        
+        incomeInputs.forEach(input => {
+            const entryName = input.getAttribute('data-entry');
+            let finalValue = input.value;
+            
+            // Logika Inti: Jika pembungkusnya tersembunyi (artinya tidak dicentang), paksa nilainya jadi 0
+            const parentSection = input.closest('.income-sub-fields');
+            if (parentSection.style.display !== 'block') {
+                finalValue = "0";
+            }
+
+            // Buat input hidden nyata dengan properti name="entry.xxxx" agar terbaca Google Form
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = entryName;
+            hiddenInput.value = finalValue;
+            container.appendChild(hiddenInput);
+        });
+    }
+
+    // 4. Logika Otomatis Pengulangan (Loop Counter) setelah pengiriman sukses
+    function handleNextLoop() {
+        if (currentLoop < totalJiwa) {
+            // Jika belum semua orang diisi, muat ulang halaman untuk orang berikutnya
+            const nextLoop = currentLoop + 1;
+            alert(`Data Anggota Ke-${currentLoop} Berhasil Terkirim! Lanjut ke Anggota Ke-${nextLoop}.`);
+            window.location.href = `individu.html?no_kk=${encodeURIComponent(noKK)}&nama_kk=${encodeURIComponent(namaKK)}&total=${totalJiwa}&loop=${nextLoop}`;
+        } else {
+            // Jika semua jiwa dalam KK sudah selesai diisi
+            alert("Selamat! Semua data anggota keluarga untuk KK ini telah selesai diisi.");
+            // Kembalikan enumerator ke aplikasi KK awal untuk input KK baru
+            window.location.href = 'kk.html'; 
+        }
+    }
+</script>
+
+</body>
+</html>
