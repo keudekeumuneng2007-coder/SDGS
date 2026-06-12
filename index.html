@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SDGs Gampong Keude Keumuneng</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f4f6f9; font-family: system-ui, -apple-system, sans-serif; }
+    .card-custom { border-radius: 14px; border-top: 6px solid #198754; box-shadow: 0 4px 15px rgba(0,0,0,0.06); max-width: 650px; }
+    .step-section { display: none; }
+    .step-section.active { display: block; }
+    .form-label { font-size: 0.9rem; margin-bottom: 4px; }
+    .table-sm th, .table-sm td { font-size: 0.8rem; padding: 4px; }
+  </style>
+</head>
+<body class="container py-4">
+
+  <div class="card card-custom p-4 bg-white mx-auto">
+    <!-- HEADER -->
+    <div class="text-center mb-3">
+      <h5 class="fw-bold text-success mb-0">SDGs Gampong Keude Keumuneng</h5>
+      <p class="text-muted small mb-1">Kuesioner Tingkat Keluarga (KK)</p>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress mb-4" style="height: 6px;">
+      <div id="progressBar" class="progress-bar bg-success" style="width: 33.3%"></div>
+    </div>
+
+    <!-- TARGET IFRAME TERSEMBUNYI -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {alert('Data Sukses Tersimpan ke Database!'); location.reload();}"></iframe>
+
+    <!-- FORM UTAMA -->
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSelqWRrruen5Q_6EglzcNIy33LcHsW-zlTSiI67-SlwajbA4w/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+      
+      <!-- ================= SECTION 1: LOKASI & KELUARGA ================= -->
+      <div id="section1" class="step-section active">
+        <div class="alert alert-success py-2 small fw-bold">Bagian 1: Deskripsi Lokasi & Keluarga</div>
+        
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label class="form-label fw-semibold">Provinsi</label>
+            <input type="text" name="entry.1993492103" class="form-control form-control-sm" value="Aceh" readonly>
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label fw-semibold">Kabupaten</label>
+            <input type="text" name="entry.211208695" class="form-control form-control-sm" value="Aceh Timur" readonly>
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label fw-semibold">Kecamatan</label>
+            <input type="text" name="entry.1627975526" class="form-control form-control-sm" value="Idi Tunong" readonly>
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label fw-semibold">Desa / Gampong</label>
+            <input type="text" name="entry.483215958" class="form-control form-control-sm" value="Keude Keumuneng" readonly>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P205. RT/RW (Kode Dusun)</label>
+          <select id="p205" name="entry.935368348" class="form-select" onchange="setNamaDusun(this.value)" required>
+            <option value="">-- Pilih Dusun --</option>
+            <option value="001=SENTOSA">001 (Dusun Sentosa)</option>
+            <option value="002=MESJID">002 (Dusun Mesjid)</option>
+            <option value="003=GELUGUR">003 (Dusun Gelugur)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P207. Alamat (Nama Dusun)</label>
+          <input type="text" id="p207" name="entry.1420175151" class="form-control" readonly required placeholder="Otomatis terisi dari pilihan P205">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P206. Nama Kepala Keluarga</label>
+          <input type="text" name="entry.1287942338" class="form-control" required placeholder="Nama KEPALA KELUARGA">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P208. No. HP KK</label>
+          <input type="number" name="entry.261669994" class="form-control" required placeholder="08xxxxxxxxxx">
+        </div>
+
+        <div class="border-top pt-3 mt-3">
+          <h6 class="fw-bold text-secondary mb-3">Data Anggota Keluarga Ringkas</h6>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Nama Anggota Keluarga Terdata</label>
+            <input type="text" name="entry.1911601001" class="form-control" required placeholder="Nama Anggota">
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label fw-semibold">Alamat Anggota</label>
+              <input type="text" id="alamat_anggota" name="entry.1348095126" class="form-control form-control-sm" readonly required>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label fw-semibold">No. HP Anggota</label>
+              <input type="number" name="entry.1202515557" class="form-control form-control-sm" required placeholder="No HP">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Hubungan dengan KK / Keterangan</label>
+            <input type="text" name="entry.1304239618" class="form-control form-control-sm" value="-">
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label fw-semibold">P301. Nomor KK</label>
+              <input type="number" name="entry.1555686630" class="form-control form-control-sm" required placeholder="16 Digit No KK">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label fw-semibold">P302. NIK Kepala Keluarga</label>
+              <input type="number" name="entry.1641294828" class="form-control form-control-sm" required placeholder="16 Digit NIK">
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-success float-end px-4 mt-2" onclick="pindahSection(2)">Lanjut</button>
+      </div>
+
+
+      <!-- ================= SECTION 2: PERMUKIMAN ================= -->
+      <div id="section2" class="step-section">
+        <div class="alert alert-success py-2 small fw-bold">Bagian 2: Kondisi Rumah & Permukiman (P401 - P420)</div>
+
+        <!-- P401 -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P401. Tempat tinggal yang ditempati</label>
+          <select id="p401" name="entry.1942876334" class="form-select form-select-sm" onchange="cekLainnya('p401', 'box_p401', 'input_p401')" required>
+            <option value="MILIK SENDIRI">MILIK SENDIRI</option>
+            <option value="KONTRAK/SEWA">KONTRAK/SEWA</option>
+            <option value="BEBAS SEWA">BEBAS SEWA</option>
+            <option value="DIPINJAMI">DIPINJAMI</option>
+            <option value="DINAS">DINAS</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p401" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P401:</label>
+          <input type="text" id="input_p401" name="entry.1944264603" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P402 -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P402. Status lahan tempat tinggal</label>
+          <select id="p402" name="entry.1556189396" class="form-select form-select-sm" onchange="cekLainnya('p402', 'box_p402', 'input_p402')" required>
+            <option value="MILIK SENDIRI">MILIK SENDIRI</option>
+            <option value="MILIK ORANG LAIN">MILIK ORANG LAIN</option>
+            <option value="TANAH NEGARA">TANAH NEGARA</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p402" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P402:</label>
+          <input type="text" id="input_p402" name="entry.366059441" class="form-control form-control-sm" value="-">
+        </div>
+
+        <div class="row">
+          <div class="col-6 mb-3"><label class="form-label fw-semibold">P403(1). Luas Lantai (m²)</label><input type="text" name="entry.1108963473" class="form-control form-control-sm" required placeholder="Misal: 45 M2"></div>
+          <div class="col-6 mb-3"><label class="form-label fw-semibold">P403(2). Luas Lahan (m²)</label><input type="text" name="entry.1058366342" class="form-control form-control-sm" required placeholder="Misal: 100 K3"></div>
+        </div>
+
+        <!-- P404 Jenis Lantai -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P404. Jenis lantai terluas</label>
+          <select id="p404" name="entry.1706417744" class="form-select form-select-sm" onchange="cekLainnya('p404', 'box_p404', 'input_p404')" required>
+            <option value="KERAMIK">KERAMIK</option>
+            <option value="MARMER/GRANIT">MARMER/GRANIT</option>
+            <option value="SEMEN/BATA MERAH">SEMEN/BATA MERAH</option>
+            <option value="KAYU/PAPAN BERKUALITAS RENDAH">KAYU/PAPAN BERKUALITAS RENDAH</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p404" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P404:</label>
+          <input type="text" id="input_p404" name="entry.1388908879" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P405 Jenis Dinding -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P405. Jenis dinding terluas</label>
+          <select id="p405" name="entry.128919986" class="form-select form-select-sm" onchange="cekLainnya('p405', 'box_p405', 'input_p405')" required>
+            <option value="TEMBOK">TEMBOK</option>
+            <option value="KAYU BERKUALITAS RENDAH">KAYU BERKUALITAS RENDAH</option>
+            <option value="BAMBU">BAMBU</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p405" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P405:</label>
+          <input type="text" id="input_p405" name="entry.1109636599" class="form-control form-control-sm" value="-">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P406. Jendela/Ventilasi</label>
+          <select name="entry.172002429" class="form-select form-select-sm"><option value="ADA, BERFUNGSI">ADA, BERFUNGSI</option><option value="ADA, TIDAK BERFUNGSI">ADA, TIDAK BERFUNGSI</option><option value="TIDAK ADA">TIDAK ADA</option></select>
+        </div>
+
+        <!-- P407 Jenis Atap -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P407. Jenis atap terluas</label>
+          <select id="p407" name="entry.657479464" class="form-select form-select-sm" onchange="cekLainnya('p407', 'box_p407', 'input_p407')" required>
+            <option value="SENG">SENG</option>
+            <option value="GENTENG">GENTENG</option>
+            <option value="ASBES">ASBES</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p407" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P407:</label>
+          <input type="text" id="input_p407" name="entry.1464680964" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P408 Penerangan -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P408. Sumber penerangan utama</label>
+          <select id="p408" name="entry.476629768" class="form-select form-select-sm" onchange="cekLainnya('p408', 'box_p408', 'input_p408')" required>
+            <option value="LISTRIK PLN">LISTRIK PLN</option>
+            <option value="LISTRIK NON PLN">LISTRIK NON PLN</option>
+            <option value="BUKAN LISTRIK">BUKAN LISTRIK</option>
+          </select>
+        </div>
+        <div id="box_p408" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P408:</label>
+          <input type="text" id="input_p408" name="entry.1124375919" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P409 Bahan Bakar Masak -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P409. Bahan bakar utama memasak</label>
+          <select id="p409" name="entry.400140276" class="form-select form-select-sm" onchange="cekLainnya('p409', 'box_p409', 'input_p409')" required>
+            <option value="GAS KOTA/LPG">GAS KOTA/LPG</option>
+            <option value="KAYU">KAYU BAKAR</option>
+            <option value="MINYAK TANAH">MINYAK TANAH</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p409" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P409:</label>
+          <input type="text" id="input_p409" name="entry.26466354" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P410 Energi Memasak -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P410. Sumber energi memasak alternatif</label>
+          <select id="p410" name="entry.310058990" class="form-select form-select-sm" onchange="cekLainnya('p410', 'box_p410', 'input_p410')" required>
+            <option value="LAINNYA">LAINNYA</option>
+            <option value="KAYU">KAYU</option>
+            <option value="TIDAK ADA">TIDAK ADA</option>
+          </select>
+        </div>
+        <div id="box_p410" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P410:</label>
+          <input type="text" id="input_p410" name="entry.163733476" class="form-control form-control-sm" value="-">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P411. Fasilitas buang air besar</label>
+          <select name="entry.89389796" class="form-select form-select-sm"><option value="SENDIRI">SENDIRI</option><option value="BERSAMA">BERSAMA</option><option value="UMUM">UMUM</option><option value="TIDAK ADA">TIDAK ADA</option></select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P412. Jenis kloset</label>
+          <select name="entry.1610897885" class="form-select form-select-sm"><option value="LEHER ANGSA">LEHER ANGSA</option><option value="PLENGSENG">PLENGSENG</option><option value="CEMPLUNG/CUBLUK">CEMPLUNG/CUBLUK</option></select>
+        </div>
+
+        <!-- P413 Sumber Air Minum -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P413. Sumber air minum utama</label>
+          <select id="p413" name="entry.465640564" class="form-select form-select-sm" onchange="cekLainnya('p413', 'box_p413', 'input_p413')" required>
+            <option value="MATA AIR/SUMUR">MATA AIR/SUMUR</option>
+            <option value="AIR KEMASAN">AIR KEMASAN</option>
+            <option value="PDAM">PDAM</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p413" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P413:</label>
+          <input type="text" id="input_p413" name="entry.972581918" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P414 Tempat Pembuangan Tinja -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P414. Tempat pembuangan akhir tinja</label>
+          <select id="p414" name="entry.1965345749" class="form-select form-select-sm" onchange="cekLainnya('p414', 'box_p414', 'input_p414')" required>
+            <option value="JAMBAN SENDIRI">TANAH / SEPTIC TANK</option>
+            <option value="SUNGAI/DANAU/LAUT">SUNGAI/DANAU/LAUT</option>
+            <option value="LUBANG DI TANAH">LUBANG DI TANAH</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p414" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P414:</label>
+          <input type="text" id="input_p414" name="entry.1002772907" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P415 Air Mandi/Cuci -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P415. Sumber air mandi/cuci</label>
+          <select id="p415" name="entry.1153589918" class="form-select form-select-sm" onchange="cekLainnya('p415', 'box_p415', 'input_p415')" required>
+            <option value="MATA AIR/SUMUR">MATA AIR/SUMUR</option>
+            <option value="PDAM">PDAM</option>
+            <option value="SUNGAI">SUNGAI</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p415" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P415:</label>
+          <input type="text" id="input_p415" name="entry.653675597" class="form-control form-control-sm" value="-">
+        </div>
+
+        <!-- P416 Pembuangan Limbah -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P416. Pembuangan limbah cair rumah tangga</label>
+          <select id="p416" name="entry.759361387" class="form-select form-select-sm" onchange="cekLainnya('p416', 'box_p416', 'input_p416')" required>
+            <option value="LUBANG DI TANAH">LUBANG DI TANAH</option>
+            <option value="RESAPAN/SEPTIC TANK">RESAPAN/SEPTIC TANK</option>
+            <option value="SUNGAI/GOT">SUNGAI/GOT</option>
+            <option value="LAINNYA">LAINNYA</option>
+          </select>
+        </div>
+        <div id="box_p416" class="mb-3 d-none">
+          <label class="form-label small text-danger fw-bold">Keterangan P416:</label>
+          <input type="text" id="input_p416" name="entry.166406216" class="form-control form-control-sm" value="-">
+        </div>
+
+        <div class="row bg-light p-2 rounded mb-3 g-2">
+          <div class="col-4"><label class="small fw-semibold">P417. SUTET</label><select name="entry.1178612310" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
+          <div class="col-4"><label class="small fw-semibold">P418. Sungai</label><select name="entry.650668599" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
+          <div class="col-4"><label class="small fw-semibold">P419. Lereng</label><select name="entry.612884341" class="form-select form-select-sm"><option value="Tidak">Tidak</option><option value="Ya">Ya</option></select></div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">P420. Kondisi Rumah</label>
+          <select name="entry.1787379859" class="form-select form-select-sm"><option value="TIDAK KUMUH">TIDAK KUMUH</option><option value="KUMUH">KUMUH</option></select>
+        </div>
+
+        <button type="button" class="btn btn-secondary px-4" onclick="pindahSection(1)">Kembali</button>
+        <button type="button" class="btn btn-success float-end px-4" onclick="pindahSection(3)">Lanjut</button>
+      </div>
+
+
+      <!-- ================= SECTION 3: TRANSPORTASI & BANSOS ================= -->
+      <div id="section3" class="step-section">
+        
+        <!-- GRID TABEL P424 AKSES TRANSPORTASI -->
+        <div class="alert alert-success py-2 small fw-bold mb-2">Bagian 3: Tabel P424 - Akses & Sarana Transportasi</div>
+        <div class="table-responsive mb-3">
+          <table class="table table-bordered align-middle text-center shadow-sm">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 25%">Tujuan</th>
+                <th style="width: 20%">Jenis</th>
+                <th style="width: 15%">Umum?</th>
+                <th style="width: 20%">Waktu (Jam)</th>
+                <th style="width: 20%">Kemudahan</th>
+              </tr>
+            </thead>
+            <tbody class="text-start">
+              <!-- BARIS 1: PEKERJAAN -->
+              <tr>
+                <td class="fw-semibold">1. Kerja Utama</td>
+                <td><select name="entry.245134948" class="form-select form-select-sm"><option value="1">1. Darat</option><option value="2">2. Air</option></select></td>
+                <td><select name="entry.2108387182" class="form-select form-select-sm"><option value="1">Ya</option><option value="2">Tidak</option></select></td>
+                <td><input type="number" step="0.1" name="entry.1108161973" class="form-control form-control-sm" value="0.5" required></td>
+                <td><select name="entry.939430881" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td>
+              </tr>
+              <!-- BARIS 2: PERTANIAN -->
+              <tr>
+                <td class="fw-semibold">2. Tani/Sawah</td>
+                <td><select name="entry.198084278" class="form-select form-select-sm"><option value="1">1. Darat</option><option value="2">2. Air</option></select></td>
+                <td><select name="entry.198084278" class="form-select form-select-sm"><option value="2">Tidak</option><option value="1">Ya</option></select></td>
+                <td><input type="number" step="0.1" name="entry.1445447398" class="form-control form-control-sm" value="0.2" required></td>
+                <td><select name="entry.1800177062" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td>
+              </tr>
+              <!-- BARIS 3: SEKOLAH -->
+              <tr><td class="fw-semibold">3. Sekolah</td><td colspan="3" class="text-center bg-light text-muted small">Biaya: <input type="number" name="entry.1163091002" class="d-inline form-control form-control-sm style-w" style="width:100px" value="0"></td><td><select name="entry.1160620467" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td></tr>
+              <!-- BARIS 4: BEROBAT -->
+              <tr><td class="fw-semibold">4. Berobat</td><td colspan="3" class="text-center bg-light small text-muted">Input Otomatis di Backend</td><td><select name="entry.2133795913" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td></tr>
+              <!-- BARIS 5: IBADAH -->
+              <tr><td class="fw-semibold">5. Ibadah</td><td colspan="3" class="text-center bg-light small text-muted">Input Otomatis di Backend</td><td><select name="entry.797619736" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td></tr>
+              <!-- BARIS 6: REKREASI -->
+              <tr><td class="fw-semibold">6. Rekreasi</td><td colspan="3" class="text-center bg-light small text-muted">Input Otomatis di Backend</td><td><select name="entry.763252233" class="form-select form-select-sm"><option value="MUDAH">MUDAH</option><option value="SULIT">SULIT</option></select></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PROGRAM BANTUAN GOVERNMEN (P425) -->
+        <div class="alert alert-success py-2 small fw-bold">Bagian 4: P425 - Program Bantuan Pemerintah</div>
+        <div class="row bg-light p-2 rounded mb-3 g-2 text-start">
+          <div class="col-6"><label class="small fw-semibold">1. PKH</label><select name="entry.1284092624" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+          <div class="col-6"><label class="small fw-semibold">2. PNT/Sembako</label><select name="entry.355369392" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+          <div class="col-6"><label class="small fw-semibold">3. BST</label><select name="entry.131863497" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+          <div class="col-6"><label class="small fw-semibold">4. BLT Dana Desa</label><select name="entry.1527336224" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+          <div class="col-6"><label class="small fw-semibold">5. Jaminan Kesehatan</label><select name="entry.417967545" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+          <div class="col-6"><label class="small fw-semibold">6. Ketenagakerjaan</label><select name="entry.1842256848" class="form-select form-select-sm"><option value="TIDAK">TIDAK</option><option value="YA">YA</option></select></div>
+        </div>
+
+        <!-- CHECKBOX BANSOS TAMBAHAN -->
+        <div class="border p-2 rounded mb-3 text-start small">
+          <span class="fw-bold d-block mb-1">Bansos Lain Berdasarkan Isian Anda:</span>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.1375432891" value="Ya"><label class="form-check-label">Bantuan Presiden / Banpres</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.1911626404" value="Ya"><label class="form-check-label">Bantuan UMKM</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.316893512" value="Ya"><label class="form-check-label">Bantuan Prakerja</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.1389651208" value="Ya"><label class="form-check-label">Bantuan Pendidikan / PIP</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.1593059662" value="Ya"><label class="form-check-label">Bantuan Rumah Swadaya</label></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="entry.1725178699" value="Ya"><label class="form-check-label">Bantuan Kabupaten</label></div>
+          
+          <div class="mt-2">
+            <label class="fw-semibold">Lainnya:</label>
+            <select id="bansos_lain" name="entry.448877432" class="form-select form-select-sm" onchange="cekLainnya('bansos_lain', 'box_bansos_lain', 'input_bansos_lain')">
+              <option value="Tidak">Tidak</option>
+              <option value="Lainnya">Ya (Wajib Tulis)</option>
+            </select>
+          </div>
+          <div id="box_bansos_lain" class="mt-2 d-none">
+            <input type="text" id="input_bansos_lain" name="entry.2088121426" class="form-control form-control-sm" value="-">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary px-4" onclick="pindahSection(2)">Kembali</button>
+        <button type="submit" class="btn btn-primary float-end fw-bold px-4">KIRIM FORM</button>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    var submitted = false;
+
+    // Otomatisasi sinkronisasi data alamat agar orang lapangan tidak ketik ulang
+    function setNamaDusun(val) {
+      if(val) {
+        var namaDusun = val.split("=")[1].trim();
+        document.getElementById("p207").value = "DUSUN " + namaDusun;
+        document.getElementById("alamat_anggota").value = "DUSUN " + namaDusun;
+      } else {
+        document.getElementById("p207").value = "";
+        document.getElementById("alamat_anggota").value = "";
+      }
+    }
+
+    // Fungsi Navigasi & Proteksi Validasi Section
+    function pindahSection(step) {
+      var seksiAktif = document.querySelector('.step-section.active');
+      var inputs = seksiAktif.querySelectorAll('input, select');
+      var valid = true;
+      
+      inputs.forEach(input => {
+        if(!input.checkValidity()) {
+          input.reportValidity();
+          valid = false;
+        }
+      });
+
+      if(!valid && step > currentStep()) return; 
+
+      document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+      document.getElementById('section' + step).classList.add('active');
+      
+      document.getElementById('progressBar').style.width = ((step / 3) * 100) + '%';
+      window.scrollTo(0,0);
+    }
+
+    function currentStep() {
+      if(document.getElementById('section1').classList.contains('active')) return 1;
+      if(document.getElementById('section2').classList.contains('active')) return 2;
+      return 3;
+    }
+
+    // Sistem Proteksi Otomatis jika Memilih "LAINNYA" / "KAYU"
+    function cekLainnya(idDropdown, idBoxLainnya, idInputLainnya) {
+      var pilihan = document.getElementById(idDropdown).value;
+      var box = document.getElementById(idBoxLainnya);
+      var input = document.getElementById(idInputLainnya);
+
+      if (pilihan === "LAINNYA" || pilihan === "KAYU" || pilihan === "Lainnya") {
+        box.classList.remove("d-none");
+        if(input.value === "-") input.value = "";
+        input.required = true;
+        input.focus();
+      } else {
+        box.classList.add("d-none");
+        input.required = false;
+        input.value = "-";
+      }
+    }
+  </script>
+</body>
+</html>
