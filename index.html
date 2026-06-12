@@ -25,11 +25,10 @@
       <div id="progressBar" class="progress-bar bg-success" style="width: 33.3%"></div>
     </div>
 
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {alert('Data Sukses Tersimpan ke Google Form!'); location.reload();}"></iframe>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="alihkanKeIndividu()"></iframe>
 
     <form action="https://docs.google.com/forms/d/e/1FAIpQLSelqWRrruen5Q_6EglzcNIy33LcHsW-zlTSiI67-SlwajbA4w/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
       
-      <!-- SECTION 1 -->
       <div id="section1" class="step-section active">
         
         <div class="alert alert-primary py-2 small fw-bold">LANGKAH AWAL: PILIH WILAYAH TUGAS</div>
@@ -72,7 +71,7 @@
 
         <div class="mb-3 border-top pt-3">
           <label class="form-label fw-semibold text-success">Nama Kepala Keluarga (KK) Terdata</label>
-          <input type="text" name="entry.1911601001" class="form-control" required placeholder="Nama LENGKAP Kepala Keluarga">
+          <input type="text" id="nama_kk" name="entry.1911601001" class="form-control" required placeholder="Nama LENGKAP Kepala Keluarga">
         </div>
         
         <div class="row">
@@ -81,15 +80,20 @@
         </div>
 
         <div class="row border-top pt-3">
-          <div class="col-6 mb-3"><label class="form-label fw-semibold">Nomor KK</label><input type="number" name="entry.1555686630" class="form-control" required placeholder="16 Digit No KK"></div>
+          <div class="col-6 mb-3"><label class="form-label fw-semibold">Nomor KK</label><input type="number" id="nomor_kk" name="entry.1555686630" class="form-control" required placeholder="16 Digit No KK"></div>
           <div class="col-6 mb-3"><label class="form-label fw-semibold">NIK Kepala Keluarga</label><input type="number" name="entry.1641294828" class="form-control" required placeholder="16 Digit NIK"></div>
+        </div>
+
+        <div class="mb-3 bg-warning-subtle p-3 rounded border border-warning">
+          <label class="form-label fw-bold text-dark">Jumlah Anggota Keluarga dalam KK (Jiwa)</label>
+          <input type="number" id="total_jiwa" class="form-control border-warning fw-bold" required min="1" placeholder="Contoh: 4 (Termasuk Kepala Keluarga, Istri, & Anak)">
+          <span class="text-muted d-block mt-1" style="font-size: 0.75rem;">*Angka ini akan mengunci sistem agar enumerator tidak lupa menginput seluruh anggota keluarga.</span>
         </div>
 
         <button type="button" class="btn btn-success float-end px-4 mt-2" onclick="pindahSection(2)">Lanjut ke Permukiman</button>
       </div>
 
 
-      <!-- SECTION 2 -->
       <div id="section2" class="step-section">
         <div class="alert alert-success py-2 small fw-bold">3. PERMUKIMAN</div>
 
@@ -214,12 +218,10 @@
         </div>
 
         <button type="button" class="btn btn-secondary px-4" onclick="pindahSection(1)">Kembali</button>
-        <!-- DI SINI PERBAIKANNYA: pindahSection diubah dari (2) menjadi (3) -->
         <button type="button" class="btn btn-success float-end px-4" onclick="pindahSection(3)">Lanjut ke Transportasi</button>
       </div>
 
 
-      <!-- SECTION 3 -->
       <div id="section3" class="step-section">
         
         <div class="alert alert-success py-2 small fw-bold mb-2">4. PENGGUNAAN TRANSPORTASI & AKSESIBILITAS</div>
@@ -357,6 +359,20 @@
       if(document.getElementById('section1').classList.contains('active')) return 1;
       if(document.getElementById('section2').classList.contains('active')) return 2;
       return 3;
+    }
+
+    // BARU: Fungsi untuk otomatis melempar parameter kontrol ke halaman individu.html setelah sukses submit form KK
+    function alihkanKeIndividu() {
+      if (submitted) {
+        let noKK = document.getElementById("nomor_kk").value;
+        let namaKK = document.getElementById("nama_kk").value;
+        let totalJiwa = document.getElementById("total_jiwa").value;
+
+        alert('Data KK Sukses Tersimpan ke Google Form! Halaman akan dialihkan untuk mengisi data Individu anggota keluarga.');
+        
+        // Mengarahkan ke file individu.html bawaan dengan membawa 3 parameter penting
+        window.location.href = `individu.html?kk=${noKK}&nama=${namaKK}&total=${totalJiwa}&loop=1`;
+      }
     }
 
     function cekLainnya(idDropdown, idBoxLainnya, idInputLainnya) {
